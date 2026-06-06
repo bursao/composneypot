@@ -1,0 +1,47 @@
+# Cowrie SSH/Telnet Honeypot
+# Official image: https://hub.docker.com/r/cowrie/cowrie
+# Repository:           https://github.com/cowrie/cowrie
+
+---
+
+services:
+  cowrie:
+    image: cowrie/cowrie:${COWRIE_VERSION:-latest}
+    container_name: ${CONTAINER_NAME:-cowrie}
+    restart: ${RESTART_POLICY:-unless-stopped}
+
+    ports:
+      - "${SSH_HOST_PORT:-2222}:2222"
+      - "${TELNET_HOST_PORT:-2223}:2223"
+
+    volumes:
+      # cowrie configuration (cowrie.cfg, userdb.txt…)
+      # Copy cowrie.cfg.example to cowrie/etc/cowrie.cfg and edit it
+      - ./cowrie/etc:/cowrie/cowrie-git/etc
+      # Logs: cowrie.json and cowrie.log
+      - ./cowrie/var/log:/cowrie/cowrie-git/var/log/cowrie
+      # Uploaded/downloaded files by attackers
+      - ./cowrie/var/downloads:/cowrie/cowrie-git/var/lib/cowrie/downloads
+      # TTY sessions playable with playlog
+      - ./cowrie/var/tty:/cowrie/cowrie-git/var/lib/cowrie/tty
+
+    environment:
+      - TZ=${TZ:-Europe/Madrid}
+
+    # Cowrie runs with uid/gid 999 inside container.
+    # Before compose up for first time:
+    #   sudo chown -R 999:999 ./cowrie/var
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-10m}"
+        max-file: "${LOG_MAX_FILES:-5}"
+
+    networks:
+      - honeypot-net
+
+networks:
+  honeypot-net:
+    driver: bridge
+    name: honeypot-net

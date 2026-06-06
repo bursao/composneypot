@@ -1,0 +1,27 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# cowrie/etc/cowrie.cfg — cowrie internal configuration
+#
+# Copy this file to cowrie/etc/cowrie.cfg and edit what you need.
+# You just need to include the sections you want to overwrite;
+# the rest use the defaults of the image's internal file.
+#
+# Complete reference:
+# https://github.com/cowrie/cowrie/blob/main/etc/cowrie.cfg.dist
+# ─────────────────────────────────────────────────────────────────────────────
+
+[honeypot]
+# Hostname that the attacker will see at the prompt (root@HOSTNAME:~#)
+hostname = bursaopot
+
+# Sensor name — appears in the "sensor" field of cowrie.json
+sensor_name = cowrie-honeypot
+
+# Maximum number of simultaneous connections
+# max_connections = 50
+
+[ssh]
+enabled = yes
+
+[telnet]
+# Uncomment to enable telnet
+# enabled = yes
