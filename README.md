@@ -1,4 +1,4 @@
-# 🍯 Cowrie Honeypot — Docker Compose - composneypot
+# 🍯 Cowrie Honeypot — Docker Compose 
 
 A docker compose for cowrie honeypot
 Honeypot SSH/Telnet based on [Cowrie](https://github.com/cowrie/cowrie).
